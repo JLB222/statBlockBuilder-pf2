@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stat Block Builder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body> 
+    <div class="container">
+        <input id="creatureId" type="number" placeholder="creatureId"></input>
+        <input id="name" type="text" placeholder="Name"></input>
+        <input id="source" type="text" placeholder="source"></input>
+        <input id="level" type="number" placeholder="level"></input>
+        <input id="tags" type="text" placeholder="tags"></input>
+        <select id="recallKnowledgeCategory" type="text" placeholder="recallKnowledgeCategory">
+            <option value="">Recall Knowledge Category</option>
+            <option value="Arcane">Arcane</option>
+            <option value="Occult">Occult</option>
+            <option value="Nature">Nature</option>
+            <option value="Religion">Religion</option>
+            <option value="Society">Society</option>
+        </select>
+
+        <input id="recallKnowledgeDC" type="text" placeholder="recallKnowledgeDCs"></input>
+        <input id="perception" type="number" placeholder="perception"></input>
+        <input id="vision" type="text" placeholder="vision"></input>
+        <input id="otherSenses" type="text" placeholder="otherSenses"></input>
+        <input id="languages" type="text" placeholder="languages"></input>
+        <input id="acrobatics" type="number" placeholder="acrobatics"></input>
+        <input id="arcana" type="number" placeholder="arcana"></input>
+        <input id="athletics" type="number" placeholder="athletics"></input>
+        <input id="crafting" type="number" placeholder="crafting"></input>
+        <input id="deception" type="number" placeholder="deception"></input>
+        <input id="diplomacy" type="number" placeholder="diplomacy"></input>
+        <input id="intimidation" type="number" placeholder="intimidation"></input>
+        <input id="loreSkills" type="number" placeholder="LORE skills, if any"></input>
+        <input id="medicine" type="number" placeholder="medicine"></input>
+        <input id="nature" type="number" placeholder="nature"></input>
+        <input id="occultism" type="number" placeholder="occultism"></input>
+        <input id="performance" type="number" placeholder="performance"></input>
+        <input id="religion" type="number" placeholder="religion"></input>
+        <input id="society" type="number" placeholder="society"></input>
+        <input id="stealth" type="number" placeholder="stealth"></input>
+        <input id="survival" type="number" placeholder="survival"></input>
+        <input id="thievery" type="number" placeholder="thievery"></input>
+
+        <input id="strength" type="number" placeholder="Strength"></input>
+        <input id="dexterity" type="number" placeholder="Dexterity"></input>
+        <input id="constitution" type="number" placeholder="Constitution"></input>
+        <input id="intelligence" type="number" placeholder="Intelligence"></input>
+        <input id="wisdom" type="number" placeholder="Wisdom"></input>
+        <input id="charisma" type="number" placeholder="Charisma"></input>
+
+        <input id="HP" type="number" placeholder="HP"></input>
+        <input id="AC" type="number" placeholder="AC"></input>
+        <input id="FORT" type="number" placeholder="FORT"></input>
+        <input id="RFLX" type="number" placeholder="RFLX"></input>
+        <input id="WILL" type="number" placeholder="WILL"></input>
+
+        <input id="Immunities" type="text" placeholder="Immunities"></input>
+        <input id="Resistances" type="text" placeholder="Resistances"></input>
+        <input id="Weaknesses" type="text" placeholder="Weaknesses"></input>
+
+        <input id="Stride" type="number" placeholder="Stride"></input>
+        <input id="Climb" type="number" placeholder="Climb"></input>
+        <input id="Swim" type="number" placeholder="Swim"></input>
+        <input id="Fly" type="number" placeholder="Fly"></input>
+        <input id="Burrow" type="number" placeholder="Burrow"></input>
+
+        <select id="reactiveStrike" type="text" placeholder="Has Reactive Strike?">
+            <option value="">Has Reactive Strike?</option>
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+        </select>
+
+        <input id="Strikes" type="text" placeholder="Strikes"></input>
+        <input id="SpellSaveDC" type="number" placeholder="SpellSaveDC"></input>
+        <input id="Rituals" type="text" placeholder="Rituals"></input>
+        <input id="Spells" type="text" placeholder="Spells"></input>
+        <input id="SpellsAtWill" type="text" placeholder="SpellsAtWill"></input>
+        <input id="SpellsConstant" type="text" placeholder="SpellsConstant"></input>
+        <input id="SpecialAbilities" type="text" placeholder="SpecialAbilities"></input>
+        <input id="Items" type="text" placeholder="Items"></input>
+        <input id="Notes" type="text" placeholder="Notes"></input>
+
+    </div>
+    <button id='submitButton' type="submit">Submit creature data</button>
+    <pre id="output">This is where the output will appear.</pre>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+.container {
+    display: flex;           /* Enable Flexbox */
+    flex-direction: column;  /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+    gap: 10px;               /* Optional: Add space between inputs */
+  }
