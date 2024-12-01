@@ -56,32 +56,7 @@ function createCreature() {
             burrow: +document.querySelector('#Burrow').value
         },
         canReactiveStrike: document.querySelector('#reactiveStrike').value === 'true',  // this 'converts' the 'true' or 'false' strings given by the <option> element to boolean true or false.  'true' === 'true' evaluates true and 'false' === 'true' would evaluate false
-        strikes: [
-            {
-                type: "whether it is melee or ranged",
-                weapon: "Fist, Claw, Tail, etc",
-                weaponTraits: [""],
-                numberOfActions: 1,
-                attackBonuses: [10,5,0],  //usually formatted as +x[+y/+z]
-                diceNumber: 0,
-                diceSize: 0,
-                damageBonus: 0,
-                damageType: "Bludgeoning",
-                rider: [
-                    {
-                        type: "extraDamage",
-                        riderDiceNumber: 0,
-                        riderDiceSize: 0,
-                        riderDamageBonus: 0,
-                        riderDamageType: "rider damage's type"
-                    },
-                    {
-                        type: "effect",
-                        riderName: "name of rider effect",
-                    }
-                ]
-            }
-        ],
+        strikes: [],
         spellSaveDC: +document.querySelector('#SpellSaveDC').value || 0,  //setting this to 0 for creatures with no spells ensures that the spell column is not rendered 
         rituals: [
             {
@@ -171,8 +146,190 @@ function createCreature() {
 
         ]
     }
+    let numOfStrikes = document.getElementById('Strikes').value
+    for (let i = 1; i <= numOfStrikes; i++) {
+        creature.strikes.push(createStrike(i))
+    }
     console.log(creature)
     document.querySelector("#output").textContent = JSON.stringify(creature, null, 2)
+}
+
+
+// Strikes //
+document.getElementById('strikeButton').addEventListener('click', addStrikeFields)
+function addStrikeFields() {
+    let numOfFields = document.getElementById('Strikes').value
+    for (let i = 0; i < numOfFields; i++) {
+        let strikeNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `strike${strikeNumber}`
+
+        let newInputType = document.createElement('input')
+        newInputType.id = `strike${strikeNumber}Type`
+        newInputType.placeholder = `Melee or Ranged?`
+        newInputType.type = "text"
+
+        let newInputWeapon = document.createElement('input')
+        newInputWeapon.id = `strike${strikeNumber}Weapon`
+        newInputWeapon.placeholder = `Claw? Bow? Tail? Sword?`
+        newInputWeapon.type = "text"
+
+        let newInputWeaponTraits = document.createElement('input')
+        newInputWeaponTraits.id = `strike${strikeNumber}WeaponTraits`
+        newInputWeaponTraits.placeholder = `weapon's traits?`
+        newInputWeaponTraits.type = "text"
+
+        let newInputAttackBonuses = document.createElement('input')
+        newInputAttackBonuses.id = `strike${strikeNumber}AttackBonuses`
+        newInputAttackBonuses.placeholder = `their MAP`
+        newInputAttackBonuses.type = "text"
+
+        let newInputDiceNumber = document.createElement('input')
+        newInputDiceNumber.id = `strike${strikeNumber}DiceNumber`
+        newInputDiceNumber.placeholder = `# of dmg dice`
+        newInputDiceNumber.type = "number"
+
+        let newInputDiceSize = document.createElement('input')
+        newInputDiceSize.id = `strike${strikeNumber}DiceSize`
+        newInputDiceSize.placeholder = `size of dmg dice`
+        newInputDiceSize.type = "number"
+
+        let newInputDamageBonus = document.createElement('input')
+        newInputDamageBonus.id = `strike${strikeNumber}DamageBonus`
+        newInputDamageBonus.placeholder = `flat dmg bonus`
+        newInputDamageBonus.type = "number"
+
+        let newInputDamageType = document.createElement('input')
+        newInputDamageType.id = `strike${strikeNumber}DamageType`
+        newInputDamageType.placeholder = `type of dmg`
+        newInputDamageType.type = "text"
+
+        //Adds rider div, dropdown options, & button to create rider inputs
+        let newDivRiderFields = document.createElement('div')
+        let newSelectHasRiders = document.createElement('select')
+        newSelectHasRiders.id = `strike${strikeNumber}HasRider`
+
+        let newOptionHasRider = document.createElement('option')
+        newOptionHasRider.innerText = `Has riders?`
+        newOptionHasRider.value = false
+
+        let newOptionHas1rider = document.createElement('option')
+        newOptionHas1rider.innerText = `1`
+        newOptionHas1rider.value = `1`
+
+        let newOptionHas2rider = document.createElement('option')
+        newOptionHas2rider.innerText = `2`
+        newOptionHas2rider.value = `2`
+
+        let newOptionHas3rider = document.createElement('option')
+        newOptionHas3rider.innerText = `3`
+        newOptionHas3rider.value = `3`
+
+        let newButtonCreateRiderFields = document.createElement('button')
+        newButtonCreateRiderFields.id = `createRiderFieldsForStrike${strikeNumber}`
+        newButtonCreateRiderFields.innerText = 'Confirm'
+        newButtonCreateRiderFields.onclick = () => addRiderFields((strikeNumber), +newSelectHasRiders.value)
+        
+        newDiv.appendChild(newInputType)
+        newDiv.appendChild(newInputWeapon)
+        newDiv.appendChild(newInputWeaponTraits)
+        newDiv.appendChild(newInputAttackBonuses)
+        newDiv.appendChild(newInputDiceNumber)
+        newDiv.appendChild(newInputDiceSize)
+        newDiv.appendChild(newInputDamageBonus)
+        newDiv.appendChild(newInputDamageType)
+        newDiv.appendChild(newDivRiderFields)
+            newDivRiderFields.appendChild(newSelectHasRiders)
+                newSelectHasRiders.appendChild(newOptionHasRider)
+                newSelectHasRiders.appendChild(newOptionHas1rider)
+                newSelectHasRiders.appendChild(newOptionHas2rider)
+                newSelectHasRiders.appendChild(newOptionHas3rider)
+        newDiv.appendChild(newButtonCreateRiderFields)
+
+        document.getElementById('strikeFields').appendChild(newDiv)
+    }
+}
+
+function createStrike(strikeNum) {
+    let strike = {
+        type: document.getElementById(`strike${strikeNum}Type`).value,
+        weapon: document.getElementById(`strike${strikeNum}Weapon`).value,
+        weaponTraits: document.getElementById(`strike${strikeNum}WeaponTraits`).value.split(","),
+        attackBonuses: document.getElementById(`strike${strikeNum}AttackBonuses`).value.split(",").map(Number) || 0,
+        diceNumber: +document.getElementById(`strike${strikeNum}DiceNumber`).value,
+        diceSize: +document.getElementById(`strike${strikeNum}DiceSize`).value,
+        damageBonus: +document.getElementById(`strike${strikeNum}DamageBonus`).value,
+        damageType: document.getElementById(`strike${strikeNum}DamageType`).value,
+    }
+
+    let numberOfRiders = document.getElementById(`strike${strikeNum}HasRider`).value
+    numberOfRiders > 0 ? strike.rider = [] : null
+    for (let i = 1; i <= numberOfRiders; i++) {
+        strike.rider.push(createRider(strikeNum, i))
+    }
+    return strike
+}
+
+function createRider(strikeNumber, riderNumber) {
+    let riderDetails = {
+        riderName: document.getElementById(`strike${strikeNumber}Rider${riderNumber}Name`).value,
+        type: document.getElementById(`strike${strikeNumber}Rider${riderNumber}Type`).value,
+        riderDiceNumber: +document.getElementById(`strike${strikeNumber}Rider${riderNumber}DiceNumber`).value,
+        riderDiceSize: +document.getElementById(`strike${strikeNumber}Rider${riderNumber}DiceSize`).value,
+        riderDamageBonus: +document.getElementById(`strike${strikeNumber}Rider${riderNumber}DamageBonus`).value || 0,
+        riderDamageType: document.getElementById(`strike${strikeNumber}Rider${riderNumber}DamageType`).value,
+    }
+    return riderDetails
+}
+
+function addRiderFields(strikeNum, riderNum) {  //(which Strike you're modifying, how many riders it has)
+    let strikeDiv = document.getElementById(`strike${strikeNum}`)
+    for (let i = 0; i < riderNum; i++) {
+        let riderDiv = document.createElement('div')
+        riderDiv.id = `rider${riderNum}`
+
+        let riderTypeSelect = document.createElement('select')
+        riderTypeSelect.id = `strike${strikeNum}Rider${riderNum}Type`
+
+        let riderTypeOption1 = document.createElement('option')
+        riderTypeOption1.value = 'extraDamage'
+        riderTypeOption1.innerText = 'Extra Damage'
+
+        let riderTypeOption2 = document.createElement('option')
+        riderTypeOption2.value = 'effect'
+        riderTypeOption2.innerText = 'Effect'
+
+        let riderNameInput = document.createElement('input')
+        riderNameInput.id = `strike${strikeNum}Rider${riderNum}Name`
+        riderNameInput.placeholder = "rider effect name"
+
+        let riderDiceNumberInput = document.createElement('input')
+        riderDiceNumberInput.id = `strike${strikeNum}Rider${riderNum}DiceNumber`
+        riderDiceNumberInput.placeholder = "number of dice"
+
+        let riderDiceSizeInput = document.createElement('input')
+        riderDiceSizeInput.id = `strike${strikeNum}Rider${riderNum}DiceSize`
+        riderDiceSizeInput.placeholder = "size of dice"
+
+        let riderDamageBonusInput = document.createElement('input')
+        riderDamageBonusInput.id = `strike${strikeNum}Rider${riderNum}DamageBonus`
+        riderDamageBonusInput.placeholder = "flat damage bonus"
+
+        let riderDamageTypeInput = document.createElement('input')
+        riderDamageTypeInput.id = `strike${strikeNum}Rider${riderNum}DamageType`
+        riderDamageTypeInput.placeholder = 'damage type'
+
+        riderDiv.appendChild(riderTypeSelect)
+            riderTypeSelect.appendChild(riderTypeOption1)
+            riderTypeSelect.appendChild(riderTypeOption2)
+        riderDiv.appendChild(riderNameInput)
+        riderDiv.appendChild(riderDiceNumberInput)
+        riderDiv.appendChild(riderDiceSizeInput)
+        riderDiv.appendChild(riderDamageBonusInput)
+        riderDiv.appendChild(riderDamageTypeInput)
+        strikeDiv.appendChild(riderDiv)
+    }
+    console.log(strikeNum,riderNum)
 }
 
 //consider assigning skill values as either the given skill bonus || the appropriate ability modifier bonus, since untrained skills still use the creature's base stats on skill checks

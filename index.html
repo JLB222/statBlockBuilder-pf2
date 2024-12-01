@@ -68,13 +68,24 @@
         <input id="Fly" type="number" placeholder="Fly"></input>
         <input id="Burrow" type="number" placeholder="Burrow"></input>
 
-        <select id="reactiveStrike" type="text" placeholder="Has Reactive Strike?">
+        <select id="reactiveStrike" type="text">
             <option value="">Has Reactive Strike?</option>
             <option value="false">No</option>
             <option value="true">Yes</option>
         </select>
 
-        <input id="Strikes" type="text" placeholder="Strikes"></input>
+        <div id="strikeFields">
+            <!-- <input id="Strikes" type="number" placeholder="Strikes"></input> -->
+            <select id="Strikes" type="number">
+                <option>Number of Strikes</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="strikeButton">Confirm</button>
+        </div>
         <input id="SpellSaveDC" type="number" placeholder="SpellSaveDC"></input>
         <input id="Rituals" type="text" placeholder="Rituals"></input>
         <input id="Spells" type="text" placeholder="Spells"></input>
