@@ -58,37 +58,10 @@ function createCreature() {
         canReactiveStrike: document.querySelector('#reactiveStrike').value === 'true',  // this 'converts' the 'true' or 'false' strings given by the <option> element to boolean true or false.  'true' === 'true' evaluates true and 'false' === 'true' would evaluate false
         strikes: [],
         spellSaveDC: +document.querySelector('#SpellSaveDC').value || 0,  //setting this to 0 for creatures with no spells ensures that the spell column is not rendered 
-        rituals: [
-            {
-                name: "",
-                ritualRank: 1
-            }
-        ],
-        spells: [
-            {
-                name: "",
-                spellRank: 0,
-                tradition: "Arcane, Divine, Occult, or Primal",
-                innate: true,
-                numberOfUses: 1,
-            }
-        ],
-        spellsAtWill: [
-            {
-                name: "",
-                spellRank: 0,
-                tradition: "Arcane, Divine, Occult, or Primal",
-                innate: true,
-            },
-        ],
-        spellsConstant: [
-            {
-                name: "",
-                spellRank: 0,
-                tradition: "Arcane, Divine, Occult, or Primal",
-                innate: true,
-            }
-        ],
+        rituals: [],
+        spells: [],
+        spellsAtWill: [],
+        spellsConstant: [],
         specialAbilities: [
             {
                 name: "Attach",
@@ -149,6 +122,22 @@ function createCreature() {
     let numOfStrikes = document.getElementById('Strikes').value
     for (let i = 1; i <= numOfStrikes; i++) {
         creature.strikes.push(createStrike(i))
+    }
+    let numOfRituals = document.getElementById('rituals').value
+    for (let i = 1; i <= numOfRituals; i++) {
+        creature.rituals.push(createRitual(i))
+    }
+    let numOfSpells = document.getElementById('spells').value
+    for (let i = 1; i <= numOfSpells; i++) {
+        creature.spells.push(createSpell(i))
+    }
+    let numOfAtWillSpells = document.getElementById('atWillSpells').value
+    for (let i = 1; i <= numOfAtWillSpells; i++) {
+        creature.spellsAtWill.push(createAtWillSpell(i))
+    }
+    let numOfConstantSpells = document.getElementById('constantSpells').value
+    for (let i = 1; i <= numOfConstantSpells; i++) {
+        creature.spellsConstant.push(createConstantSpell(i))
     }
     console.log(creature)
     document.querySelector("#output").textContent = JSON.stringify(creature, null, 2)
@@ -332,4 +321,185 @@ function addRiderFields(strikeNum, riderNum) {  //(which Strike you're modifying
     console.log(strikeNum,riderNum)
 }
 
+
+//Rituals
+document.getElementById('ritualButton').addEventListener('click', addRitualFields)
+function addRitualFields() {
+    let numOfFields = document.getElementById('rituals').value
+    for (let i = 0; i < numOfFields; i++) {
+        let ritualNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `ritual${ritualNumber}`
+
+        let newInputName = document.createElement('input')
+        newInputName.id = `ritual${ritualNumber}Name`
+        newInputName.placeholder = `Name of the ritual?`
+        newInputName.type = "text"
+
+        let newInputRitualRank = document.createElement('input')
+        newInputRitualRank.id = `ritual${ritualNumber}Rank`
+        newInputRitualRank.placeholder = `What rank is this ritual?`
+        newInputRitualRank.type = "number"
+        
+        newDiv.appendChild(newInputName)
+        newDiv.appendChild(newInputRitualRank)
+
+        document.getElementById('ritualFields').appendChild(newDiv)
+    }
+}
+function createRitual(ritualNum) {
+    let ritual = {
+        name: document.getElementById(`ritual${ritualNum}Name`).value,
+        rank: document.getElementById(`ritual${ritualNum}Rank`).value,
+    }
+    return ritual
+}
+
+//Limited Use Spells
+document.getElementById('spellButton').addEventListener('click', addSpellFields)
+function addSpellFields() {
+    let numOfFields = document.getElementById('spells').value
+    for (let i = 0; i < numOfFields; i++) {
+        let spellNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `spell${spellNumber}`
+
+        let newInputName = document.createElement('input')
+        newInputName.id = `spell${spellNumber}Name`
+        newInputName.placeholder = `Name of the spell?`
+        newInputName.type = "text"
+
+        let newInputSpellRank = document.createElement('input')
+        newInputSpellRank.id = `spell${spellNumber}Rank`
+        newInputSpellRank.placeholder = `What rank is this spell?`
+        newInputSpellRank.type = "number"
+
+        let newInputSpellTradition = document.createElement('input')
+        newInputSpellTradition.id = `spell${spellNumber}Tradition`
+        newInputSpellTradition.placeholder = `What tradition is this spell?`
+        newInputSpellTradition.type = "text"
+
+        let newInputSpellInnate = document.createElement('input')
+        newInputSpellInnate.id = `spell${spellNumber}Innate`
+        newInputSpellInnate.placeholder = `Innate? true or false`
+        newInputSpellInnate.type = "text"
+
+        let newInputSpellUses = document.createElement('input')
+        newInputSpellUses.id = `spell${spellNumber}Uses`
+        newInputSpellUses.placeholder = `How many uses?`
+        newInputSpellUses.type = "number"
+        
+        newDiv.appendChild(newInputName)
+        newDiv.appendChild(newInputSpellRank)
+        newDiv.appendChild(newInputSpellTradition)
+        newDiv.appendChild(newInputSpellInnate)
+        newDiv.appendChild(newInputSpellUses)
+
+        document.getElementById('spellFields').appendChild(newDiv)
+    }
+}
+function createSpell(spellNum) {
+    let spell = {
+        name: document.getElementById(`spell${spellNum}Name`).value,
+        rank: document.getElementById(`spell${spellNum}Rank`).value,
+        tradition: document.getElementById(`spell${spellNum}Tradition`).value,
+        innate: document.getElementById(`spell${spellNum}Innate`).value === 'true',
+        uses: document.getElementById(`spell${spellNum}Uses`).value,
+    }
+    return spell
+}
+
+//Unlimited Use Spells
+document.getElementById('atWillSpellButton').addEventListener('click', addAtWillSpellFields)
+function addAtWillSpellFields() {
+    let numOfFields = document.getElementById('atWillSpells').value
+    for (let i = 0; i < numOfFields; i++) {
+        let spellNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `spell${spellNumber}`
+
+        let newInputName = document.createElement('input')
+        newInputName.id = `spell${spellNumber}Name`
+        newInputName.placeholder = `Name of the spell?`
+        newInputName.type = "text"
+
+        let newInputSpellRank = document.createElement('input')
+        newInputSpellRank.id = `spell${spellNumber}Rank`
+        newInputSpellRank.placeholder = `What rank is this spell?`
+        newInputSpellRank.type = "number"
+
+        let newInputSpellTradition = document.createElement('input')
+        newInputSpellTradition.id = `spell${spellNumber}Tradition`
+        newInputSpellTradition.placeholder = `What tradition is this spell?`
+        newInputSpellTradition.type = "text"
+
+        let newInputSpellInnate = document.createElement('input')
+        newInputSpellInnate.id = `spell${spellNumber}Innate`
+        newInputSpellInnate.placeholder = `Innate? true or false`
+        newInputSpellInnate.type = "text"
+        
+        newDiv.appendChild(newInputName)
+        newDiv.appendChild(newInputSpellRank)
+        newDiv.appendChild(newInputSpellTradition)
+        newDiv.appendChild(newInputSpellInnate)
+
+        document.getElementById('atWillSpellFields').appendChild(newDiv)
+    }
+}
+function createAtWillSpell(spellNum) {
+    let atWillSpell = {
+        name: document.getElementById(`spell${spellNum}Name`).value,
+        rank: document.getElementById(`spell${spellNum}Rank`).value,
+        tradition: document.getElementById(`spell${spellNum}Tradition`).value,
+        innate: document.getElementById(`spell${spellNum}Innate`).value === 'true',
+    }
+    return atWillSpell
+}
+
+//Constant spells 
+document.getElementById('constantSpellButton').addEventListener('click', addConstantSpellFields)
+function addConstantSpellFields() {
+    let numOfFields = document.getElementById('constantSpells').value
+    for (let i = 0; i < numOfFields; i++) {
+        let spellNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `constantSpell${spellNumber}`
+
+        let newInputName = document.createElement('input')
+        newInputName.id = `constantSpell${spellNumber}Name`
+        newInputName.placeholder = `Name of the spell?`
+        newInputName.type = "text"
+
+        let newInputSpellRank = document.createElement('input')
+        newInputSpellRank.id = `constantSpell${spellNumber}Rank`
+        newInputSpellRank.placeholder = `What rank is this spell?`
+        newInputSpellRank.type = "number"
+
+        let newInputSpellTradition = document.createElement('input')
+        newInputSpellTradition.id = `constantSpell${spellNumber}Tradition`
+        newInputSpellTradition.placeholder = `What tradition is this spell?`
+        newInputSpellTradition.type = "text"
+
+        let newInputSpellInnate = document.createElement('input')
+        newInputSpellInnate.id = `constantSpell${spellNumber}Innate`
+        newInputSpellInnate.placeholder = `Innate? true or false`
+        newInputSpellInnate.type = "text"
+        
+        newDiv.appendChild(newInputName)
+        newDiv.appendChild(newInputSpellRank)
+        newDiv.appendChild(newInputSpellTradition)
+        newDiv.appendChild(newInputSpellInnate)
+
+        document.getElementById('constantSpellFields').appendChild(newDiv)
+    }
+}
+function createConstantSpell(spellNum) {
+    let constantSpell = {
+        name: document.getElementById(`constantSpell${spellNum}Name`).value,
+        rank: document.getElementById(`constantSpell${spellNum}Rank`).value,
+        tradition: document.getElementById(`constantSpell${spellNum}Tradition`).value,
+        innate: document.getElementById(`constantSpell${spellNum}Innate`).value === 'true',
+    }
+    return constantSpell
+}
 //consider assigning skill values as either the given skill bonus || the appropriate ability modifier bonus, since untrained skills still use the creature's base stats on skill checks
