@@ -198,7 +198,7 @@ function createStrike(strikeNum) {
     let strike = {
         type: document.getElementById(`strike${strikeNum}Type`).value,
         weapon: document.getElementById(`strike${strikeNum}Weapon`).value,
-        weaponTraits: document.getElementById(`strike${strikeNum}WeaponTraits`).value.split(",").map(el => el[0]?.toUpperCase() + el.slice(1)),
+        weaponTraits: document.getElementById(`strike${strikeNum}WeaponTraits`).value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)),
         attackBonuses: document.getElementById(`strike${strikeNum}AttackBonuses`).value.split(",").map(Number) || 0,
         diceNumber: +document.getElementById(`strike${strikeNum}DiceNumber`).value,
         diceSize: +document.getElementById(`strike${strikeNum}DiceSize`).value,
@@ -590,7 +590,7 @@ function createSpecialAbility(specialAbilityNum) {
         name: document.getElementById(`specialAbility${specialAbilityNum}Name`).value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(" "),
         type: document.getElementById(`specialAbility${specialAbilityNum}Type`).value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(" "),
         numberOfActions: +document.getElementById(`specialAbility${specialAbilityNum}NumOfActions`).value,
-        traits: document.getElementById(`specialAbility${specialAbilityNum}Traits`).value.split(",").map(el => el[0]?.toUpperCase() + el.slice(1)),
+        traits: document.getElementById(`specialAbility${specialAbilityNum}Traits`).value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)),
         diceNumber: +document.getElementById(`specialAbility${specialAbilityNum}DiceNumber`).value,
         diceSize: +document.getElementById(`specialAbility${specialAbilityNum}DiceSize`).value,
         damageBonus: +document.getElementById(`specialAbility${specialAbilityNum}DamageBonus`).value,
