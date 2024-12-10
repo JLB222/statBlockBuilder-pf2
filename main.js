@@ -2,17 +2,17 @@ document.querySelector('#submitButton').addEventListener('click', createCreature
 
 function createCreature() {
     let creature = {
-        name: document.querySelector('#name').value,
+        name: document.querySelector('#name').value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(" "),
         id: +document.querySelector('#creatureId').value,
-        source: document.querySelector('#source').value,
+        source: document.querySelector('#source').value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(" "),
         level: +document.querySelector('#level').value,
-        tags: document.querySelector('#tags').value.split(","),
+        tags: document.querySelector('#tags').value.split(",").map(el => el[0]?.toUpperCase() + el.slice(1)),
         recallKnowledgeCategory: document.querySelector('#recallKnowledgeCategory').value,
         recallKnowledgeDC: document.querySelector('#recallKnowledgeDC').value.split(",").map(Number),  
         perception: +document.querySelector('#perception').value,
-        vision: document.querySelector('#vision').value,
-        otherSenses: document.querySelector('#otherSenses').value.split(","),
-        languages: document.querySelector('#languages').value.split(","),
+        vision: document.querySelector('#vision').value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(""),
+        otherSenses: document.querySelector('#otherSenses').value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)),
+        languages: document.querySelector('#languages').value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)),
 
         skillBonusAcrobatics: +document.querySelector('#acrobatics').value || 0,
         skillBonusArcana: +document.querySelector('#arcana').value || 0,
@@ -21,7 +21,7 @@ function createCreature() {
         skillBonusDeception: +document.querySelector('#deception').value || 0,
         skillBonusDiplomacy: +document.querySelector('#diplomacy').value || 0,
         skillBonusIntimidation: +document.querySelector('#intimidation').value || 0,
-        skillBonusLore: {Warfare: 30},
+        skillBonusLore: createLoreObject(),
         skillBonusMedicine: +document.querySelector('#medicine').value || 0,
         skillBonusNature: +document.querySelector('#nature').value || 0,
         skillBonusOccultism: +document.querySelector('#occultism').value || 0,
@@ -44,9 +44,9 @@ function createCreature() {
         defenseFortSave: +document.querySelector('#FORT').value,
         defenseRflxSave: +document.querySelector('#RFLX').value,
         defenseWillSave: +document.querySelector('#WILL').value,
-        defenseImmunities: document.querySelector('#Immunities').value.split(","),
-        defenseResistances: document.querySelector('#Resistances').value.split(","),
-        defenseWeaknesses: document.querySelector('#Weaknesses').value.split(","),
+        defenseImmunities: document.querySelector('#Immunities').value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)) || [],
+        defenseResistances: document.querySelector('#Resistances').value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)) || [],
+        defenseWeaknesses: document.querySelector('#Weaknesses').value.split(",").filter(el => el.trim() !== "").map(el => el[0]?.toUpperCase() + el.slice(1)) || [],
 
         speeds: {
             stride: +document.querySelector('#Stride').value,
@@ -62,62 +62,9 @@ function createCreature() {
         spells: [],
         spellsAtWill: [],
         spellsConstant: [],
-        specialAbilities: [
-            {
-                name: "Attach",
-                type: "Passive",
-                traits: [],
-                dc: null,
-                description: "When a bloodseeker hits a target larger than itself, its barbed legs attach it to that creature. This is similar to grabbing the creature, but the bloodseeker moves with that creature rather than holding it in place. The bloodseeker is flat-footed while attached. If the bloodseeker is killed or pushed away while attached to a creature it has drained blood from, that creature takes 1 persistent bleed damage. Escaping the attach or removing the bloodseeker in other ways doesn’t cause bleed damage."
-            },
-            {
-                name: "Blood Drain",
-                type: "Activity",
-                numberOfActions: 1,
-                traits: [],
-                requirements: "The bloodseeker is attached to a creature.",
-                description: "The bloodseeker uses its proboscis to drain blood from the creature it’s attached to. This deals 1d4 damage, and the bloodseeker gains temporary Hit Points equal to the damage dealt. A creature that has its blood drained by a bloodseeker is drained 1 until it receives healing (of any kind or amount).",
-                diceNumber: 1,
-                diceSize: 4,
-                damageBonus: 0,
-                damageType: "",
-            },
-            {
-                name: "Rejection Vulnerability",
-                type: "Demon Vulnerability",
-                damageTaken: [2,6,0,"Mental"],
-                description: "As succubi are beings of pure lust, creatures that reject their lust can metaphysically harm them. When a succubus fails a Diplomacy check to Embrace or Request, or when a creature succeeds at its save against a succubus’s mental spell or ability, the succubus takes 2d6 mental damage. For one hour after causing mental damage to a succubus in this way, a creature can deal 2d6 mental damage to the succubus with a successful Demoralize incorporating its rejection.",
-            },
-            {
-                name: "Seductive Presence",
-                type: "Aura",
-                auraSize: 10,
-                traits: ["Aura", "Charm", "Emotion", "Mental"],
-                description: "Any creature in the aura that could be sexually attracted to a succubus takes a –2 circumstance penalty to checks and DCs to oppose the succubus’s mental spells, Deception, and Diplomacy."
-            },
-            {
-                name: "Attack of Opportunity",
-                type: "Reaction",
-                trigger: "A creature within the monster's reach uses a manipulate action or a move action, makes a ranged attack, or leaves a square during a move action it's using.",
-                effect: "The monster attempts a melee Strike against the triggering creature. If the attack is a critical hit and the trigger was a manipulate action, the monster disrupts that action. This Strike doesn't count toward the monster's multiple attack penalty, and its multiple attack penalty doesn't apply to this Strike.",
-            },
-            {
-                name: "Burning Hoofprints",
-                type: "Activity",
-                numberOfActions: 2,
-                traits: ["Divine", "Fire", "Unholy"],
-                description: "The vordine Strides, trailing hoofprints in each square they exit. The hoofprints burn for 1 minute. A creature on the ground that enters a square with burning hoofprints or begins its turn in one takes 1d4 fire damage.",
-                diceNumber: 1,
-                diceSize: 4,
-                damageBonus: 0,
-                damageType: "Fire",
-            }
-
-        ],
-        items: ["Crossbow"],
-        notes: [
-
-        ]
+        specialAbilities: [],
+        items: document.getElementById('Items').value ? document.getElementById('Items').value.split(",").map(el => el[0]?.toUpperCase() + el.slice(1)) : "",
+        notes: []
     }
     let numOfStrikes = document.getElementById('Strikes').value
     for (let i = 1; i <= numOfStrikes; i++) {
@@ -138,6 +85,14 @@ function createCreature() {
     let numOfConstantSpells = document.getElementById('constantSpells').value
     for (let i = 1; i <= numOfConstantSpells; i++) {
         creature.spellsConstant.push(createConstantSpell(i))
+    }
+    let numOfNotes = document.getElementById('notes').value
+    for (let i = 1; i <= numOfNotes; i++) {
+        creature.notes.push(createNote(i))
+    }
+    let numOfSpecials = document.getElementById('specialAbilities').value
+    for (let i = 1; i <= numOfSpecials; i++) {
+        creature.specialAbilities.push(createSpecialAbility(i))
     }
     console.log(creature)
     document.querySelector("#output").textContent = JSON.stringify(creature, null, 2)
@@ -243,7 +198,7 @@ function createStrike(strikeNum) {
     let strike = {
         type: document.getElementById(`strike${strikeNum}Type`).value,
         weapon: document.getElementById(`strike${strikeNum}Weapon`).value,
-        weaponTraits: document.getElementById(`strike${strikeNum}WeaponTraits`).value.split(","),
+        weaponTraits: document.getElementById(`strike${strikeNum}WeaponTraits`).value.split(",").map(el => el[0]?.toUpperCase() + el.slice(1)),
         attackBonuses: document.getElementById(`strike${strikeNum}AttackBonuses`).value.split(",").map(Number) || 0,
         diceNumber: +document.getElementById(`strike${strikeNum}DiceNumber`).value,
         diceSize: +document.getElementById(`strike${strikeNum}DiceSize`).value,
@@ -261,8 +216,8 @@ function createStrike(strikeNum) {
 
 function createRider(strikeNumber, riderNumber) {
     let riderDetails = {
-        riderName: document.getElementById(`strike${strikeNumber}Rider${riderNumber}Name`).value,
-        type: document.getElementById(`strike${strikeNumber}Rider${riderNumber}Type`).value,
+        riderName: document.getElementById(`strike${strikeNumber}Rider${riderNumber}Name`).value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(""),
+        type: document.getElementById(`strike${strikeNumber}Rider${riderNumber}Type`).value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(""),
         riderDiceNumber: +document.getElementById(`strike${strikeNumber}Rider${riderNumber}DiceNumber`).value,
         riderDiceSize: +document.getElementById(`strike${strikeNumber}Rider${riderNumber}DiceSize`).value,
         riderDamageBonus: +document.getElementById(`strike${strikeNumber}Rider${riderNumber}DamageBonus`).value || 0,
@@ -416,25 +371,25 @@ function addAtWillSpellFields() {
     for (let i = 0; i < numOfFields; i++) {
         let spellNumber = i+1
         let newDiv = document.createElement('div')
-        newDiv.id = `spell${spellNumber}`
+        newDiv.id = `atWillSpell${spellNumber}`
 
         let newInputName = document.createElement('input')
-        newInputName.id = `spell${spellNumber}Name`
+        newInputName.id = `atWillSpell${spellNumber}Name`
         newInputName.placeholder = `Name of the spell?`
         newInputName.type = "text"
 
         let newInputSpellRank = document.createElement('input')
-        newInputSpellRank.id = `spell${spellNumber}Rank`
+        newInputSpellRank.id = `atWillSpell${spellNumber}Rank`
         newInputSpellRank.placeholder = `What rank is this spell?`
         newInputSpellRank.type = "number"
 
         let newInputSpellTradition = document.createElement('input')
-        newInputSpellTradition.id = `spell${spellNumber}Tradition`
+        newInputSpellTradition.id = `atWillSpell${spellNumber}Tradition`
         newInputSpellTradition.placeholder = `What tradition is this spell?`
         newInputSpellTradition.type = "text"
 
         let newInputSpellInnate = document.createElement('input')
-        newInputSpellInnate.id = `spell${spellNumber}Innate`
+        newInputSpellInnate.id = `atWillSpell${spellNumber}Innate`
         newInputSpellInnate.placeholder = `Innate? true or false`
         newInputSpellInnate.type = "text"
         
@@ -502,4 +457,183 @@ function createConstantSpell(spellNum) {
     }
     return constantSpell
 }
-//consider assigning skill values as either the given skill bonus || the appropriate ability modifier bonus, since untrained skills still use the creature's base stats on skill checks
+
+//Notes, such as shield stats
+document.getElementById('noteButton').addEventListener('click', addNoteFields)
+function addNoteFields() {
+    let numOfFields = document.getElementById('notes').value
+    for (let i = 0; i < numOfFields; i++) {
+        let noteNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `note${noteNumber}`
+
+        let newInputEntry = document.createElement('input')
+        newInputEntry.id = `note${noteNumber}Entry`
+        newInputEntry.placeholder = `"Shield" or an actual note about creature`
+        newInputEntry.type = "text"
+
+        let newInputShieldHardness = document.createElement('input')
+        newInputShieldHardness.id = `note${noteNumber}ShieldHardness`
+        newInputShieldHardness.placeholder = `What is the shield's hardness?`
+        newInputShieldHardness.type = "number"
+
+        let newInputShieldHP = document.createElement('input')
+        newInputShieldHP.id = `note${noteNumber}ShieldHP`
+        newInputShieldHP.placeholder = `What is the shield's max HP?`
+        newInputShieldHP.type = "number"
+
+        let newInputShieldBrokenThreshold = document.createElement('input')
+        newInputShieldBrokenThreshold.id = `note${noteNumber}ShieldBrokenThreshold`
+        newInputShieldBrokenThreshold.placeholder = `what is the broken threshold?`
+        newInputShieldBrokenThreshold.type = "number"
+        
+        newDiv.appendChild(newInputEntry)
+        newDiv.appendChild(newInputShieldHardness)
+        newDiv.appendChild(newInputShieldHP)
+        newDiv.appendChild(newInputShieldBrokenThreshold)
+
+        document.getElementById('noteFields').appendChild(newDiv)
+    }
+}
+function createNote(noteNum) {
+    let entryString = document.getElementById(`note${noteNum}Entry`).value
+    let note = {
+        entry: entryString[0].toUpperCase() + entryString.slice(1),
+        shieldHardness: +document.getElementById(`note${noteNum}ShieldHardness`).value,
+        shieldHP: +document.getElementById(`note${noteNum}ShieldHP`).value,
+        shieldBrokenThreshold: +document.getElementById(`note${noteNum}ShieldBrokenThreshold`).value,
+    }
+    return note
+}
+
+//Special Abilities
+document.getElementById('specialAbilityButton').addEventListener('click', addSpecialAbilityFields)
+function addSpecialAbilityFields() {
+    let numOfFields = document.getElementById('specialAbilities').value
+    for (let i = 0; i < numOfFields; i++) {
+        let specialAbilityNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `specialAbility${specialAbilityNumber}`
+
+        let newInputName = document.createElement('input')
+        newInputName.id = `specialAbility${specialAbilityNumber}Name`
+        newInputName.placeholder = `name of the special`
+        newInputName.type = "text"
+
+        let newInputType = document.createElement('input')
+        newInputType.id = `specialAbility${specialAbilityNumber}Type`
+        newInputType.placeholder = `type of special`
+        newInputType.type = "text"
+
+        let newInputNumberOfActions = document.createElement('input')
+        newInputNumberOfActions.id = `specialAbility${specialAbilityNumber}NumOfActions`
+        newInputNumberOfActions.placeholder = `number of actions`
+        newInputNumberOfActions.type = "number"
+
+        let newInputTraits = document.createElement('input')
+        newInputTraits.id = `specialAbility${specialAbilityNumber}Traits`
+        newInputTraits.placeholder = `what are the traits?`
+        newInputTraits.type = "text"
+
+        let newInputDescription = document.createElement('input')
+        newInputDescription.id = `specialAbility${specialAbilityNumber}Description`
+        newInputDescription.placeholder = `description`
+        newInputDescription.type = "text"
+
+        let newInputDiceNumber = document.createElement('input')
+        newInputDiceNumber.id = `specialAbility${specialAbilityNumber}DiceNumber`
+        newInputDiceNumber.placeholder = `how many damage dice?`
+        newInputDiceNumber.type = "number"
+
+        let newInputDiceSize = document.createElement('input')
+        newInputDiceSize.id = `specialAbility${specialAbilityNumber}DiceSize`
+        newInputDiceSize.placeholder = `dice size?`
+        newInputDiceSize.type = "number"
+
+        let newInputDamageBonus = document.createElement('input')
+        newInputDamageBonus.id = `specialAbility${specialAbilityNumber}DamageBonus`
+        newInputDamageBonus.placeholder = `damage bonus`
+        newInputDamageBonus.type = "number"
+
+        let newInputDamageType = document.createElement('input')
+        newInputDamageType.id = `specialAbility${specialAbilityNumber}DamageType`
+        newInputDamageType.placeholder = `what type of dmg?`
+        newInputDamageType.type = "text"
+
+        let newInputTrigger = document.createElement('input')
+        newInputTrigger.id = `specialAbility${specialAbilityNumber}Trigger`
+        newInputTrigger.placeholder = `reaction trigger is?`
+        newInputTrigger.type = "text"
+
+        let newInputEffect = document.createElement('input')
+        newInputEffect.id = `specialAbility${specialAbilityNumber}Effect`
+        newInputEffect.placeholder = `what effect does it have?`
+        newInputEffect.type = "text"
+        
+        newDiv.appendChild(newInputName)
+        newDiv.appendChild(newInputType)
+        newDiv.appendChild(newInputNumberOfActions)
+        newDiv.appendChild(newInputTraits)
+        newDiv.appendChild(newInputDescription)
+        newDiv.appendChild(newInputDiceNumber)
+        newDiv.appendChild(newInputDiceSize)
+        newDiv.appendChild(newInputDamageBonus)
+        newDiv.appendChild(newInputDamageType)
+        newDiv.appendChild(newInputTrigger)
+        newDiv.appendChild(newInputEffect)
+
+        document.getElementById('specialAbilityFields').appendChild(newDiv)
+    }
+}
+function createSpecialAbility(specialAbilityNum) {
+    let special = {
+        name: document.getElementById(`specialAbility${specialAbilityNum}Name`).value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(" "),
+        type: document.getElementById(`specialAbility${specialAbilityNum}Type`).value.split(" ").map(el => el[0]?.toUpperCase() + el.slice(1)).join(" "),
+        numberOfActions: +document.getElementById(`specialAbility${specialAbilityNum}NumOfActions`).value,
+        traits: document.getElementById(`specialAbility${specialAbilityNum}Traits`).value.split(",").map(el => el[0]?.toUpperCase() + el.slice(1)),
+        diceNumber: +document.getElementById(`specialAbility${specialAbilityNum}DiceNumber`).value,
+        diceSize: +document.getElementById(`specialAbility${specialAbilityNum}DiceSize`).value,
+        damageBonus: +document.getElementById(`specialAbility${specialAbilityNum}DamageBonus`).value,
+        damageType: document.getElementById(`specialAbility${specialAbilityNum}DamageType`).value,
+        trigger: document.getElementById(`specialAbility${specialAbilityNum}Trigger`).value,
+        effect: document.getElementById(`specialAbility${specialAbilityNum}Effect`).value,
+    }
+    return special
+}
+
+//Lore Skill
+document.getElementById('loreButton').addEventListener('click', addLoreFields)
+function addLoreFields() {
+    let numOfFields = document.getElementById('loreSkills').value
+    for (let i = 0; i < numOfFields; i++) {
+        let loreSkillNumber = i+1
+        let newDiv = document.createElement('div')
+        newDiv.id = `lore${loreSkillNumber}`
+
+        let newInputName = document.createElement('input')
+        newInputName.id = `loreSkill${loreSkillNumber}Name`
+        newInputName.placeholder = `Lore Name`
+        newInputName.type = "text"
+
+        let newInputValue = document.createElement('input')
+        newInputValue.id = `loreSkill${loreSkillNumber}Value`
+        newInputValue.placeholder = `lore bonus`
+        newInputValue.type = "number"
+
+        newDiv.appendChild(newInputName)
+        newDiv.appendChild(newInputValue)
+
+        document.getElementById('loreFields').appendChild(newDiv)
+    }
+}
+
+function createLoreObject() {
+    let numberOfLores = document.getElementById(`loreSkills`).value
+    let lore = {}
+    for (let i = 1; i <= numberOfLores; i++) {
+        loreName =  document.getElementById(`loreSkill${i}Name`).value
+        loreBonus = document.getElementById(`loreSkill${i}Value`).value
+        lore[loreName] = +loreBonus
+    }
+    return lore
+}

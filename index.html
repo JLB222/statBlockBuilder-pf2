@@ -34,7 +34,6 @@
         <input id="deception" type="number" placeholder="deception"></input>
         <input id="diplomacy" type="number" placeholder="diplomacy"></input>
         <input id="intimidation" type="number" placeholder="intimidation"></input>
-        <input id="loreSkills" type="number" placeholder="LORE skills, if any"></input>
         <input id="medicine" type="number" placeholder="medicine"></input>
         <input id="nature" type="number" placeholder="nature"></input>
         <input id="occultism" type="number" placeholder="occultism"></input>
@@ -44,6 +43,17 @@
         <input id="stealth" type="number" placeholder="stealth"></input>
         <input id="survival" type="number" placeholder="survival"></input>
         <input id="thievery" type="number" placeholder="thievery"></input>
+        <div id="loreFields">
+            <select id="loreSkills" type="number">
+                <option>Number of Lore Skills</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="loreButton">Confirm</button>
+        </div>
 
         <input id="strength" type="number" placeholder="Strength"></input>
         <input id="dexterity" type="number" placeholder="Dexterity"></input>
@@ -143,10 +153,29 @@
             </select>
             <button id="constantSpellButton">Confirm</button>
         </div>
-        <input id="SpecialAbilities" type="text" placeholder="SpecialAbilities"></input>
-
+        <div id="specialAbilityFields">
+            <select id="specialAbilities" type="number">
+                <option>Number of specials </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="specialAbilityButton">Confirm</button>
+        </div>
         <input id="Items" type="text" placeholder="Items"></input>
-        <input id="Notes" type="text" placeholder="Notes"></input>
+        <div id="noteFields">
+            <select id="notes" type="number">
+                <option>Number of notes </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="noteButton">Confirm</button>
+        </div>
 
     </div>
     <button id='submitButton' type="submit">Submit creature data</button>
