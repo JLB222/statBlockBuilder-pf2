@@ -597,6 +597,7 @@ function createSpecialAbility(specialAbilityNum) {
         damageType: document.getElementById(`specialAbility${specialAbilityNum}DamageType`).value,
         trigger: document.getElementById(`specialAbility${specialAbilityNum}Trigger`).value,
         effect: document.getElementById(`specialAbility${specialAbilityNum}Effect`).value,
+        description: document.getElementById(`specialAbility${specialAbilityNum}Description`).value,
     }
     return special
 }
@@ -636,4 +637,26 @@ function createLoreObject() {
         lore[loreName] = +loreBonus
     }
     return lore
+}
+
+
+//stat block cleaner - removes all properties whose value is an empty string or empty array
+function trimEmptyValues(obj) {
+    if (typeof obj !== 'object' || obj === null) return obj;
+  
+    return Object.entries(obj).reduce((result, [key, value]) => {
+      // Recursively process nested objects
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        value = trimEmptyValues(value);
+      }
+      // Only add to result if value is not an empty string/array and not null
+      if (
+        value !== '' &&
+        !(Array.isArray(value) && value.length === 0) &&
+        value !== null
+      ) {
+        result[key] = value;
+      }
+      return result;
+    }, {});
 }
