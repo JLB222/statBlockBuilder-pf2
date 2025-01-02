@@ -537,7 +537,7 @@ function addSpecialAbilityFields() {
 
         let newInputDescription = document.createElement('input')
         newInputDescription.id = `specialAbility${specialAbilityNumber}Description`
-        newInputDescription.placeholder = `description`
+        newInputDescription.placeholder = `Description`
         newInputDescription.type = "text"
 
         let newInputDiceNumber = document.createElement('input')
@@ -552,24 +552,29 @@ function addSpecialAbilityFields() {
 
         let newInputDamageBonus = document.createElement('input')
         newInputDamageBonus.id = `specialAbility${specialAbilityNumber}DamageBonus`
-        newInputDamageBonus.placeholder = `damage bonus`
+        newInputDamageBonus.placeholder = `Flat Damage Bonus`
         newInputDamageBonus.type = "number"
 
         let newInputDamageType = document.createElement('input')
         newInputDamageType.id = `specialAbility${specialAbilityNumber}DamageType`
-        newInputDamageType.placeholder = `what type of dmg?`
+        newInputDamageType.placeholder = `Damage Type`
         newInputDamageType.type = "text"
 
         let newInputTrigger = document.createElement('input')
         newInputTrigger.id = `specialAbility${specialAbilityNumber}Trigger`
-        newInputTrigger.placeholder = `reaction trigger is?`
+        newInputTrigger.placeholder = `Trigger`
         newInputTrigger.type = "text"
 
         let newInputEffect = document.createElement('input')
         newInputEffect.id = `specialAbility${specialAbilityNumber}Effect`
-        newInputEffect.placeholder = `what effect does it have?`
+        newInputEffect.placeholder = `Effect`
         newInputEffect.type = "text"
-        
+
+        let newInputRequirement = document.createElement('input')
+        newInputRequirement.id = `specialAbility${specialAbilityNumber}Requirement`
+        newInputRequirement.placeholder = 'Requirement'
+        newInputRequirement.type = 'text'
+
         newDiv.appendChild(newInputName)
         newDiv.appendChild(newInputType)
         newDiv.appendChild(newInputNumberOfActions)
@@ -581,6 +586,7 @@ function addSpecialAbilityFields() {
         newDiv.appendChild(newInputDamageType)
         newDiv.appendChild(newInputTrigger)
         newDiv.appendChild(newInputEffect)
+        newDiv.appendChild(newInputRequirement)
 
         document.getElementById('specialAbilityFields').appendChild(newDiv)
     }
@@ -598,6 +604,7 @@ function createSpecialAbility(specialAbilityNum) {
         trigger: document.getElementById(`specialAbility${specialAbilityNum}Trigger`).value,
         effect: document.getElementById(`specialAbility${specialAbilityNum}Effect`).value,
         description: document.getElementById(`specialAbility${specialAbilityNum}Description`).value,
+        requirement: document.getElementById(`specialAbility${specialAbilityNum}Requirement`).value
     }
     return special
 }
